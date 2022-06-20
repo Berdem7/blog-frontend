@@ -3,9 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import AddPostModal from "../src/components/AddPostModal";
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     axios.get("http://localhost:3000/api/posts").then((res) => {
       const data = res.data;
@@ -28,11 +30,38 @@ function App() {
         setPosts([]);
       });
   };
+  const handleAddPost = () => {
+    setShowModal(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target[0].value);
+    console.log(e.target[1].value);
+    console.log(e.target[2].value);
+    const newTitle = e.target[0].value;
+    const newURL = e.target[1].value;
+    const newDescription = e.target[2].value;
+    axios
+      .post(`http://localhost:3000/api/posts`, {
+        title: newTitle,
+        url: newURL,
+        description: newDescription,
+      })
+      .then(function (res) {
+        console.log(res);
+        setPosts([]);
+        setShowModal(false);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 
   // console.log(posts);
   return (
     <div className="App">
-      <Container className="justify-center">
+      <Container className="container justify-center md:w-[700px]">
         <h1 className="text-3xl mt-16 mb-10 font-bold">MY BLOG POSTS</h1>
         {/* <Form className="d-flex justify-between">
           <Button variant="primary" type="submit">
@@ -43,7 +72,7 @@ function App() {
           return (
             <Card className="relative border-b mb-4" key={index}>
               <Card.Img
-                className="w-72 h-40 relative"
+                className="w-72 h-40 sm:h-80 relative"
                 variant="top"
                 alt={post._id}
                 src={post.url}
@@ -68,10 +97,18 @@ function App() {
             </Card>
           );
         })}
-        <button className="rounded-full leading-none sticky bottom-4 right-2 p-3 text-large text-white bg-sky-400">
+        <button
+          onClick={handleAddPost}
+          className="rounded-full leading-none sticky bottom-6 text-end p-3 text-large text-white bg-sky-400"
+        >
           +
         </button>
       </Container>
+      <AddPostModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 }
