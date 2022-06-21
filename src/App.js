@@ -4,6 +4,7 @@ import { Form, Button, Container, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AddPostModal from "../src/components/AddPostModal";
+// import { usePost } from "../src/contexts/PostContext";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -60,14 +61,22 @@ function App() {
 
   // console.log(posts);
   return (
-    <div className="App">
-      <Container className="container justify-center md:w-[700px]">
-        <h1 className="text-3xl mt-16 mb-10 font-bold">MY BLOG POSTS</h1>
-        {/* <Form className="d-flex justify-between">
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form> */}
+    <div className="App  flex justify-center">
+      <div className=" justify-center max-w-sm sm:max-w-2xl">
+        <div className="md:flex md:justify-between">
+          <h1 className="text-3xl sm:text-4xl md:justify-self-start mt-16 mb-10 font-bold">
+            MY BLOG POSTS
+          </h1>
+          {/* <Form> */}
+          <button
+            onClick={handleAddPost}
+            className="hidden md:inline md:align-middle my-auto py-2 px-3 rounded-md text-white bg-sky-600"
+            variant="primary"
+          >
+            + Add post
+          </button>
+          {/* </Form> */}
+        </div>
         {posts.map((post, index) => {
           return (
             <Card className="relative border-b mb-4" key={index}>
@@ -79,7 +88,7 @@ function App() {
               />
               <button
                 onClick={handleDelete}
-                className="py-2 px-3 rounded-md border-0 bg-white text-base font-bold text-red-500 absolute top-28 right-2"
+                className="py-2 px-3 rounded-md border-0 bg-white text-base font-bold text-red-500 absolute top-28 sm:top-64 right-2 sm:right-6"
               >
                 Delete
               </button>
@@ -87,7 +96,7 @@ function App() {
                 <Card.Text className="text-base text-left font-light text-slate-400">
                   {formatDate(post.created_at)}
                 </Card.Text>
-                <Card.Title className="flex text-left text-2xl font-bold justify-self-start">
+                <Card.Title className="flex text-left text-2xl sm:text-3xl font-bold justify-self-start">
                   {post.title}
                 </Card.Title>
                 <Card.Text className="text-left font-normal font-base">
@@ -99,11 +108,11 @@ function App() {
         })}
         <button
           onClick={handleAddPost}
-          className="rounded-full leading-none sticky bottom-6 text-end p-3 text-large text-white bg-sky-400"
+          className="md:hidden rounded-full leading-none sticky bottom-6 text-end p-3 text-large text-white bg-sky-600"
         >
           +
         </button>
-      </Container>
+      </div>
       <AddPostModal
         show={showModal}
         onHide={() => setShowModal(false)}

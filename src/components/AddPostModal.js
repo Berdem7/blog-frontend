@@ -43,7 +43,7 @@ function AddPostModal(props) {
             </button>
             <button
               type="submit"
-              className="py-2 px-3 rounded-md border-1 bg-sky-500 text-base font-bold text-white"
+              className="py-2 px-3 rounded-md border-1 bg-sky-600 text-base font-bold text-white"
             >
               + Create post
             </button>
